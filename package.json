@@ -1,0 +1,12 @@
+{
+  "name": "hurricane-xcs-landing",
+  "version": "1.0.0",
+  "description": "Landing page Hurricane XCS (HTML + Tailwind CSS)",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/xcs.css -o assets/css/xcs.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/xcs.css -o assets/css/xcs.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

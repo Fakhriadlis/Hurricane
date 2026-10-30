@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-midnight text-ice font-sans antialiased; overflow-x: hidden; }
+  @supports (overflow: clip) { body { overflow-x: clip; } }
+  ::selection { background: #FFA45C; color: #1B0E02; }
+  :focus-visible { outline: 2px solid #3DA9FF; outline-offset: 3px; border-radius: 10px; }
+  img, video { max-width: 100%; }
+}
+
+@layer components {
+  /* permukaan kaca: dipakai untuk kartu, navbar, chip */
+  .glass {
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+    border: 1px solid rgba(255,255,255,.09);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 20px 50px -24px rgba(0,0,0,.7);
+  }
+  /* tombol utama: cantaloupe orange, teks gelap (kontras 10:1) */
+  .btn-cta {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-2xl bg-canta px-6 py-4 text-base font-bold text-canta-ink shadow-cta transition;
+  }
+  .btn-cta:hover { @apply bg-canta-600; transform: translateY(-1px); }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-2xl border border-white/15 bg-white/5 px-6 py-4 text-base font-semibold text-ice transition;
+  }
+  .btn-ghost:hover { @apply border-white/30 bg-white/10; }
+  .section { @apply px-5 py-20 sm:px-8 lg:py-28; }
+  .h2 { @apply text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.6rem]; }
+}
+
+/* ===== Hero: garis voltase — tidak stabil masuk, stabil keluar ===== */
+.volt-line path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.volt-in  { stroke: #FF6B57; stroke-width: 2.2; opacity: .85; stroke-dasharray: 900; stroke-dashoffset: 900; animation: volt-draw 1.6s cubic-bezier(.65,0,.35,1) .3s forwards; }
+.volt-out { stroke: #3DA9FF; stroke-width: 2.6; stroke-dasharray: 600; stroke-dashoffset: 600; animation: volt-draw 1.2s cubic-bezier(.65,0,.35,1) 1.5s forwards; filter: drop-shadow(0 0 6px rgba(61,169,255,.9)); }
+.volt-pulse { fill: #BFE3FF; filter: drop-shadow(0 0 8px #3DA9FF); opacity: 0; animation: volt-pulse-in .4s ease 2.6s forwards; }
+@keyframes volt-draw { to { stroke-dashoffset: 0; } }
+@keyframes volt-pulse-in { to { opacity: 1; } }
+.unit-glow { background: radial-gradient(closest-side, rgba(61,169,255,.28), rgba(255,164,92,.14) 55%, transparent 75%); }
+.unit-float { animation: unit-float 6s ease-in-out 2s infinite alternate; }
+@keyframes unit-float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+/* ===== Marquee testimoni ===== */
+.marquee-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ===== FAQ (details/summary) ===== */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-icon { transform: rotate(45deg); }
+
+/* ===== Pemutar video ===== */
+#player::backdrop { background: rgba(3,6,12,.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+
+/* ===== Tombol melayang di HP: muncul setelah hero lewat ===== */
+#mobile-cta { transform: translateY(140%); transition: transform .35s cubic-bezier(.16,1,.3,1); }
+#mobile-cta.show { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .volt-in, .volt-out { animation: none; stroke-dashoffset: 0; }
+  .volt-pulse { animation: none; opacity: 1; }
+  .volt-pulse animateMotion { display: none; }
+  .unit-float, .marquee-track { animation: none !important; }
+}
